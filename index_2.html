@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Learning Tracker · Std 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F4FB; --surface:#FFFFFF; --surface-2:#FAF9FE;
+  --ink:#1E2433; --ink-soft:#5A6376; --ink-faint:#9AA1B2;
+  --line:#EBE8F4; --line-soft:#F2F0F9;
+  --eng:#3D6AE1; --mar:#EE8A3C; --mat:#8E5BE0; --evs:#2F9E6B; --hin:#E0566F; --oth:#64748B;
+  --school:#3D6AE1; --tuition:#9333EA; --parent:#F4820B; --mastery:#16A34A;
+  --rose:#E0566F; --rose-soft:#FCE7EC; --gold:#E0A41F; --gold-soft:#FBF0D2;
+  --shadow:0 1px 2px rgba(30,36,51,.04), 0 10px 30px rgba(30,36,51,.07);
+  --r:18px; --r-sm:12px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;font-weight:700;padding-bottom:90px}
+.num{font-variant-numeric:tabular-nums}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:inherit;font-weight:700;color:var(--ink)}
+.wrap{max-width:780px;margin:0 auto;padding:0 15px}
+
+header{position:sticky;top:0;z-index:30;background:linear-gradient(120deg,#6D5BE0,#8E5BE0 45%,#B05BD8);color:#fff}
+.head-inner{max-width:780px;margin:0 auto;padding:16px 15px 14px}
+.brand{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+.spark{width:36px;height:36px;border-radius:11px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.spark svg{width:21px;height:21px}
+.brand h1{font-size:18px;font-weight:900;margin:0;letter-spacing:-.02em}
+.brand p{font-size:12px;opacity:.85;margin:1px 0 0;font-weight:700}
+.kid-row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.kid-row::-webkit-scrollbar{display:none}
+.kid-pill{flex:0 0 auto;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;padding:7px 14px;border-radius:999px;font-weight:800;font-size:13.5px;display:flex;align-items:center;gap:7px;transition:.15s}
+.kid-pill.on{background:#fff;color:var(--mat);border-color:#fff}
+.kid-pill.add{border-style:dashed}
+
+nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 0 calc(8px + env(safe-area-inset-bottom))}
+.nav-inner{max-width:780px;margin:0 auto;display:flex;padding:0 10px}
+.tab{flex:1;color:var(--ink-faint);display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px;font-size:10.5px;font-weight:800;position:relative}
+.tab svg{width:22px;height:22px}
+.tab.on{color:var(--mat)}
+
+main{padding-top:16px}
+section{display:none;animation:fade .25s ease}
+section.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:17px;margin-bottom:13px}
+.card h2{font-size:15px;font-weight:900;margin:0 0 2px;letter-spacing:-.01em}
+.card .sub{font-size:12.5px;color:var(--ink-soft);font-weight:700;margin:0 0 14px}
+
+.headline{background:linear-gradient(120deg,#16A34A,#34B97A);color:#fff;border:none}
+.headline h2{color:#fff}
+.hl-big{font-size:38px;font-weight:900;letter-spacing:-.03em;line-height:1;margin:8px 0 4px}
+.hl-sub{font-size:13px;font-weight:800;opacity:.9}
+.hl-bar{height:9px;background:rgba(255,255,255,.28);border-radius:99px;margin-top:13px;overflow:hidden}
+.hl-bar i{display:block;height:100%;background:#fff;border-radius:99px;transition:width .9s cubic-bezier(.22,1,.36,1)}
+
+.rings{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.ring-c{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:13px 8px;text-align:center;box-shadow:var(--shadow)}
+.ring-c svg{width:74px;height:74px;display:block;margin:0 auto 6px}
+.ring-c .rl{font-size:11px;font-weight:900}
+.ring-c .rn{font-size:10px;font-weight:800;color:var(--ink-faint);margin-top:2px}
+
+.subj-card{border:1px solid var(--line);border-radius:var(--r-sm);padding:13px;margin-bottom:10px;background:var(--surface-2)}
+.subj-card:last-child{margin-bottom:0}
+.subj-head{display:flex;align-items:center;gap:9px;margin-bottom:11px}
+.subj-dot{width:11px;height:11px;border-radius:4px;flex:0 0 auto}
+.subj-head .sn{font-size:14px;font-weight:900;flex:1}
+.subj-head .sc{font-size:11.5px;font-weight:800;color:var(--ink-soft)}
+.stack{height:13px;border-radius:7px;background:var(--line);overflow:hidden;display:flex}
+.stack i{height:100%;transition:width .7s cubic-bezier(.22,1,.36,1)}
+.stack-legend{display:flex;gap:13px;margin-top:8px;font-size:10.5px;font-weight:800;color:var(--ink-soft);flex-wrap:wrap}
+.stack-legend span{display:flex;align-items:center;gap:5px}
+.stack-legend i{width:9px;height:9px;border-radius:3px}
+
+.action h2{display:flex;align-items:center;gap:8px}
+.flame{width:8px;height:8px;border-radius:50%;background:var(--rose);box-shadow:0 0 0 4px var(--rose-soft)}
+.gap-item{display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid var(--line-soft)}
+.gap-item:first-child{border-top:none}
+.gap-bar{flex:0 0 auto;width:6px;border-radius:99px;align-self:stretch}
+.gap-body{flex:1;min-width:0}
+.gap-body .t{font-size:13.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gap-body .m{font-size:11px;font-weight:800;color:var(--ink-soft);margin-top:3px;display:flex;gap:6px;flex-wrap:wrap}
+.mini-mast{display:inline-flex;gap:2px;align-items:center}
+.mini-mast i{width:6px;height:6px;border-radius:50%;background:var(--line)}
+.mini-mast i.f{background:var(--mastery)}
+.gap-btn{flex:0 0 auto;background:var(--mat);color:#fff;font-weight:900;font-size:12px;padding:8px 12px;border-radius:9px;display:flex;align-items:center;gap:5px}
+.gap-btn svg{width:13px;height:13px}
+
+.subj-block{margin-bottom:13px}
+.subj-toggle{width:100%;display:flex;align-items:center;gap:10px;padding:14px 15px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.subj-toggle .sn{font-size:15px;font-weight:900;flex:1;text-align:left}
+.subj-toggle .pct{font-size:12.5px;font-weight:900}
+.subj-toggle .chev{transition:.2s;color:var(--ink-faint)}
+.subj-toggle.open .chev{transform:rotate(180deg)}
+.topic-list{margin-top:9px;display:none}
+.topic-list.open{display:block}
+.topic{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 13px;margin-bottom:8px;box-shadow:var(--shadow)}
+.topic .tn{font-size:13.5px;font-weight:800;margin-bottom:10px}
+.topic-ctrls{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.cbtn{font-size:10.5px;font-weight:900;padding:6px 9px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink-faint);display:flex;align-items:center;gap:4px}
+.cbtn .led{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.cbtn.on{color:#fff;border-color:transparent}
+.cbtn.school.on{background:var(--school)} .cbtn.school.half{background:#fff;color:var(--school);border-color:var(--school)}
+.cbtn.tuition.on{background:var(--tuition)}
+.cbtn.parent.on{background:var(--parent)}
+.mast-pick{display:inline-flex;gap:4px;margin-left:auto;align-items:center}
+.mast-pick .ml{font-size:10px;font-weight:800;color:var(--ink-faint);margin-right:1px}
+.mast-pick button{width:19px;height:19px;border-radius:50%;background:var(--line);transition:.12s}
+.mast-pick button.f{background:var(--mastery)}
+.topic .prow{display:flex;gap:7px;margin-top:10px}
+.t-practice{font-size:11px;font-weight:900;color:var(--mat);background:#F3EDFE;padding:6px 10px;border-radius:8px;display:flex;align-items:center;gap:5px}
+.t-practice svg{width:12px;height:12px}
+
+.field{margin-bottom:13px}
+label.fl{display:block;font-size:12px;font-weight:800;color:var(--ink-soft);margin:0 0 6px}
+input[type=text],input[type=date],input[type=number],select,textarea{width:100%;border:1.5px solid var(--line);background:var(--surface-2);border-radius:var(--r-sm);padding:12px 13px;font-size:15px;outline:none;transition:.15s;-webkit-appearance:none;appearance:none}
+select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235A6376' stroke-width='3' stroke-linecap='round'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 13px center;padding-right:38px}
+input:focus,select:focus,textarea:focus{border-color:var(--mat);background:#fff;box-shadow:0 0 0 3px #F3EDFE}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.score-grp{display:flex;align-items:center;gap:8px}.score-grp span{color:var(--ink-faint);font-weight:900}
+.pick6{display:flex;gap:6px}
+.pick6 button{flex:1;border:1.5px solid var(--line);background:var(--surface-2);border-radius:10px;padding:10px 0;font-weight:900;font-size:14px;color:var(--ink-soft)}
+.pick6 button.on{background:var(--mastery);color:#fff;border-color:transparent}
+.pick6-legend{display:flex;justify-content:space-between;font-size:10px;font-weight:800;color:var(--ink-faint);margin-top:5px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:12px;font-weight:900;font-size:14.5px;padding:13px 18px;transition:.15s}
+.btn:active{transform:scale(.985)}
+.btn-primary{background:var(--mat);color:#fff;width:100%}
+.btn-dark{background:var(--ink);color:#fff;width:100%}
+.btn-ghost{background:var(--surface);border:1.5px solid var(--line);color:var(--ink)}
+.btn-sm{padding:9px 13px;font-size:13px;border-radius:10px}
+.btn-grad{background:linear-gradient(120deg,var(--mat),#B05BD8);color:#fff;width:100%}
+.btn2{display:flex;gap:9px;margin-top:11px}.btn2 .btn{flex:1}
+
+.sheet-item{display:flex;align-items:center;gap:11px;padding:12px 0;border-top:1px solid var(--line-soft)}
+.sheet-item:first-child{border-top:none}
+.sheet-ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;color:#fff}
+.sheet-ic svg{width:17px;height:17px}
+.sheet-body{flex:1;min-width:0}
+.sheet-body .t{font-size:13.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sheet-body .m{font-size:11px;font-weight:800;color:var(--ink-soft);margin-top:2px}
+
+.empty{text-align:center;padding:28px 18px;color:var(--ink-soft)}
+.empty .ic{width:46px;height:46px;border-radius:14px;background:#F3EDFE;display:flex;align-items:center;justify-content:center;margin:0 auto 11px}
+.empty .ic svg{width:23px;height:23px;color:var(--mat)}
+.empty b{display:block;font-size:14.5px;font-weight:900;color:var(--ink);margin-bottom:3px}
+.empty span{font-size:12.5px;font-weight:700}
+
+.mkid{display:flex;align-items:center;gap:11px;padding:12px 0;border-top:1px solid var(--line-soft)}
+.mkid:first-child{border-top:none}
+.mkid .av{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:15px;flex:0 0 auto}
+.mkid-body{flex:1;min-width:0}.mkid-body .n{font-size:14.5px;font-weight:900}.mkid-body .s{font-size:11.5px;font-weight:700;color:var(--ink-soft);margin-top:1px}
+.io-row{display:flex;gap:10px;margin-top:4px}.io-row .btn{flex:1}
+.danger{color:var(--rose)!important;border-color:var(--rose-soft)!important}
+
+.scrim{position:fixed;inset:0;background:rgba(30,36,51,.5);z-index:50;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px)}
+.scrim.on{display:flex}
+.sheet-m{background:var(--bg);width:100%;max-width:780px;border-radius:24px 24px 0 0;padding:20px 17px calc(26px + env(safe-area-inset-bottom));animation:up .3s cubic-bezier(.22,1,.36,1);max-height:92vh;overflow-y:auto}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.sheet-m h3{font-size:18px;font-weight:900;margin:0 0 5px}
+.sheet-m .h3sub{font-size:12.5px;font-weight:700;color:var(--ink-soft);margin:0 0 15px}
+.sheet-actions{display:flex;gap:10px;margin-top:8px}.sheet-actions .btn{flex:1}
+
+.rsection{font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);margin:13px 0 6px}
+.rtags{display:flex;flex-wrap:wrap;gap:6px}
+.rtag{font-size:11px;font-weight:800;padding:4px 9px;border-radius:7px}
+.rtag.bad{background:var(--rose-soft);color:var(--rose)}
+.rtag.good{background:#E2F4EA;color:#1E7A48}
+
+.psheet{background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);padding:18px}
+.psheet .ph{border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:14px}
+.psheet .ph .pt{font-size:17px;font-weight:900}
+.psheet .ph .pi{font-size:12px;font-weight:700;color:var(--ink-soft);margin-top:4px}
+.psheet .meta{display:flex;gap:18px;font-size:11px;font-weight:800;color:var(--ink-soft);margin-top:8px}
+.pq{padding:11px 0;border-bottom:1px dashed var(--line);font-size:14.5px;font-weight:700}
+.pq .qn{font-weight:900;color:var(--mat);margin-right:7px}
+.pq .qline{display:inline-block;border-bottom:1.5px solid var(--ink-faint);min-width:80px;margin-left:6px}
+.ptip{margin-top:14px;background:var(--gold-soft);border-radius:10px;padding:12px 13px;font-size:12.5px;font-weight:700;color:#7a5800}
+.ptip b{font-weight:900}
+.answers{margin-top:12px;font-size:11.5px;font-weight:700;color:var(--ink-faint)}
+
+.read-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.read-stats .rs-c{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 8px;text-align:center}
+.read-stats .rs-c .v{font-size:22px;font-weight:900;line-height:1;color:var(--evs)}
+.read-stats .rs-c .l{font-size:10px;font-weight:800;color:var(--ink-faint);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+.read-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line-soft)}
+.read-item:first-child{border-top:none}
+.read-item .t{flex:1;min-width:0;font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.read-item .fl-dots{display:inline-flex;gap:2px}.read-item .fl-dots i{width:6px;height:6px;border-radius:50%;background:var(--line)}.read-item .fl-dots i.f{background:var(--evs)}
+.read-item .mn{font-size:11px;font-weight:800;color:var(--ink-soft)}
+.mistake-item{display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid var(--line-soft)}
+.mistake-item:first-child{border-top:none}
+.mistake-item .cnt{flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:var(--gold-soft);color:#9A6B00;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center}
+.mistake-item .mb{flex:1;min-width:0}.mistake-item .mb .t{font-size:13px;font-weight:800}.mistake-item .mb .s{font-size:11px;font-weight:800;color:var(--ink-soft);margin-top:2px}
+.notice{background:#EEF4FF;color:#1E3A8A;border-radius:12px;padding:13px;font-size:12.5px;font-weight:700;margin-bottom:13px;display:flex;gap:9px;align-items:flex-start}
+.notice svg{width:17px;height:17px;flex:0 0 auto;margin-top:1px}
+.notice b{font-weight:900}
+
+.toast{position:fixed;bottom:104px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:11px 18px;border-radius:12px;font-weight:800;font-size:13.5px;z-index:60;opacity:0;transition:.3s;pointer-events:none;box-shadow:var(--shadow);max-width:90%;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media print{body *{visibility:hidden}#printArea,#printArea *{visibility:visible}#printArea{position:absolute;left:0;top:0;width:100%;padding:24px}#printArea .answers{display:none}}
+
+.upload{display:block;border:2px dashed var(--line);border-radius:var(--r);padding:24px 18px;text-align:center;background:var(--surface-2);transition:.15s;cursor:pointer}
+.upload:active{border-color:var(--mat)}
+.up-ic{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--mat),#B05BD8);display:flex;align-items:center;justify-content:center;margin:0 auto 11px}
+.up-ic svg{width:24px;height:24px;color:#fff}
+.upload b{display:block;font-size:14px;font-weight:900;margin-bottom:2px}
+.upload span{font-size:12px;font-weight:700;color:var(--ink-soft)}
+.preview{margin-top:13px;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line)}
+.preview img{width:100%;display:block;max-height:230px;object-fit:contain;background:#fff}
+.preview .pdf{padding:20px;text-align:center;color:var(--ink-soft);font-weight:800}
+.spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle}
+.spin-dark{border-color:var(--line);border-top-color:var(--mat)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.result{margin-top:13px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.result-head{padding:12px 14px;color:#fff;display:flex;align-items:center;gap:9px}
+.result-head .rt{font-size:13.5px;font-weight:900;flex:1}
+.result-head .rs{font-size:13px;font-weight:900;background:rgba(255,255,255,.22);padding:3px 10px;border-radius:8px}
+.result-body{padding:13px 14px}
+.rline{font-size:13px;font-weight:700;color:var(--ink-soft);margin-bottom:10px;line-height:1.45}
+.apply-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.apply-row select{flex:1;min-width:130px}
+.ai-card{background:linear-gradient(120deg,#F3EDFE,#FBF4FF);border-color:#E7DBFB}
+.ai-out{margin-top:13px}
+.ai-out .blk{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);padding:13px;font-size:13.5px;font-weight:700;line-height:1.5;white-space:pre-wrap}
+.ai-out .blk b{font-weight:900;color:var(--mat)}
+.keynote{font-size:11px;font-weight:700;color:var(--ink-soft);margin-top:11px;line-height:1.5;background:var(--surface-2);border-radius:9px;padding:10px 12px}
+.keynote b{color:var(--ink)}
+.ai-status{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:800;padding:9px 12px;border-radius:10px;margin-bottom:12px}
+.ai-status.on{background:#E2F4EA;color:#1E7A48}
+.ai-status.off{background:var(--gold-soft);color:#9A6B00}
+.ai-status .pip{width:9px;height:9px;border-radius:50%}
+.ai-status.on .pip{background:#1E7A48}.ai-status.off .pip{background:#C99A2E}
+.locked{opacity:.6}
+</style>
+</head>
+<body>
+<header>
+  <div class="head-inner">
+    <div class="brand">
+      <div class="spark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></svg></div>
+      <div><h1>Learning Tracker</h1><p id="brandSub">Std 1 · SSC Mumbai Board</p></div>
+    </div>
+    <div class="kid-row" id="kidRow"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- DASHBOARD -->
+  <section id="v-dash" class="on">
+    <div class="card headline">
+      <h2 style="font-size:13px;opacity:.92">How much he knows</h2>
+      <div class="hl-big num" id="hlBig">0%</div>
+      <div class="hl-sub" id="hlSub">Mastered 0 of 0 topics</div>
+      <div class="hl-bar"><i id="hlBar" style="width:0%"></i></div>
+    </div>
+    <div class="rings" id="rings"></div>
+    <div class="card ai-card" id="aiAnalysisCard">
+      <h2>🧠 AI analysis</h2>
+      <p class="sub">Let Gemini look at everything — coverage, mastery, mistakes, reading — and tell you what to focus on next.</p>
+      <button class="btn btn-grad" id="askClaudeBtn">Analyse his progress</button>
+      <div id="aiAnalysisOut"></div>
+    </div>
+    <div class="card" style="margin-top:13px">
+      <h2>Coverage by subject</h2>
+      <p class="sub">Coloured fill = taught (school / tuition / you). Green = he's mastered it.</p>
+      <div id="subjStacks"></div>
+      <div class="stack-legend">
+        <span><i style="background:var(--school)"></i>School</span>
+        <span><i style="background:var(--tuition)"></i>Tuition</span>
+        <span><i style="background:var(--parent)"></i>You</span>
+        <span><i style="background:var(--mastery)"></i>Mastered</span>
+      </div>
+    </div>
+    <div class="card action">
+      <h2><span class="flame"></span>Needs practice now</h2>
+      <p class="sub">Taught already, but not yet mastered. Tap to make a practice sheet.</p>
+      <div id="gapList"></div>
+    </div>
+    <div class="card action">
+      <h2><span class="flame" style="background:var(--parent);box-shadow:0 0 0 4px #FDECD6"></span>Where you can help</h2>
+      <p class="sub">School taught these, he's still weak, and you haven't worked on them yet.</p>
+      <div id="parentList"></div>
+    </div>
+
+    <div class="card action">
+      <h2><span class="flame" style="background:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)"></span>Recurring mistakes</h2>
+      <p class="sub">The errors that keep showing up across his worksheets — drill these first.</p>
+      <div id="mistakeList"></div>
+    </div>
+
+    <div class="card">
+      <h2>📖 Reading log</h2>
+      <p class="sub">Reading fluency is the #1 skill at this age. Log a few minutes daily.</p>
+      <div id="readStats" class="read-stats"></div>
+      <div class="field" style="margin-top:12px"><label class="fl">What did he read?</label><input type="text" id="rdWhat" placeholder="e.g. Balbharati story, picture book, sight words"></div>
+      <div class="row2">
+        <div class="field"><label class="fl">Minutes</label><input type="number" id="rdMin" placeholder="10" min="1"></div>
+        <div class="field"><label class="fl">Date</label><input type="date" id="rdDate"></div>
+      </div>
+      <div class="field">
+        <label class="fl">How smoothly did he read?</label>
+        <div class="pick6" id="rdFluency"><button data-v="1">1</button><button data-v="2">2</button><button data-v="3">3</button><button data-v="4">4</button><button data-v="5">5</button></div>
+        <div class="pick6-legend"><span>Letter by letter</span><span>Fluent</span></div>
+      </div>
+      <button class="btn btn-dark" id="rdSaveBtn">Add to reading log</button>
+      <div id="readList" style="margin-top:6px"></div>
+    </div>
+  </section>
+
+  <!-- SYLLABUS -->
+  <section id="v-syllabus">
+    <div class="notice">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>Tap <b>School</b>, <b>Tuition</b>, <b>You</b> to mark who taught it. The green dots = how much he actually knows (0–5).</span>
+    </div>
+    <div id="syllabus"></div>
+  </section>
+
+  <!-- WORKSHEETS -->
+  <section id="v-sheets">
+    <div class="card" id="aiReaderCard">
+      <h2>📸 Read a worksheet with AI</h2>
+      <p class="sub" id="aiReaderSub">Snap a photo of a completed sheet. Gemini reads it, grades it, and updates his mastery.</p>
+      <label class="upload" id="uploadBox" for="fileIn">
+        <div class="up-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M12 11v6M9.5 13.5L12 11l2.5 2.5"/></svg></div>
+        <b>Tap to add a photo or PDF</b><span>of a worksheet, book page, or test</span>
+      </label>
+      <input type="file" id="fileIn" accept="image/*,application/pdf" capture="environment" style="display:none">
+      <div id="previewWrap"></div>
+      <div id="analyzeWrap"></div>
+      <div id="resultWrap"></div>
+    </div>
+    <div class="card">
+      <h2>Or log it yourself</h2>
+      <p class="sub">No photo needed — just record how he did.</p>
+      <div class="field"><label class="fl">Subject</label><select id="logSubject"></select></div>
+      <div class="field"><label class="fl">Topic</label><select id="logTopic"></select></div>
+      <div class="row2">
+        <div class="field"><label class="fl">Score (optional)</label><div class="score-grp"><input type="number" id="logGot" placeholder="8" min="0"><span>/</span><input type="number" id="logMax" placeholder="10" min="1"></div></div>
+        <div class="field"><label class="fl">Date</label><input type="date" id="logDate"></div>
+      </div>
+      <div class="field">
+        <label class="fl">How well did he do?</label>
+        <div class="pick6" id="logMastery"><button data-v="0">0</button><button data-v="1">1</button><button data-v="2">2</button><button data-v="3">3</button><button data-v="4">4</button><button data-v="5">5</button></div>
+        <div class="pick6-legend"><span>Struggled</span><span>Mastered</span></div>
+      </div>
+      <div class="field"><label class="fl">What did he get wrong? (optional)</label><input type="text" id="logMistakes" placeholder="e.g. reversed b/d, forgot carry, मात्रा"></div>
+      <button class="btn btn-dark" id="saveLogBtn">Save to tracker</button>
+      <div id="logPractice"></div>
+    </div>
+    <div class="card">
+      <h2>Worksheet history</h2>
+      <p class="sub">Every sheet you've logged, and the practice sheets you've made.</p>
+      <div id="dbList"></div>
+    </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="v-manage">
+    <div class="card">
+      <h2>🔌 Connect Gemini (Google AI)</h2>
+      <p class="sub">Paste your own Google Gemini API key to unlock worksheet reading and progress analysis. It's stored only on this device, in this browser.</p>
+      <div id="aiStatus"></div>
+      <div class="field"><label class="fl">Google Gemini API key</label><input type="password" id="apiKeyIn" placeholder="AIza..."></div>
+      <div class="field"><label class="fl">Model</label><select id="modelIn">
+        <option value="gemini-2.5-flash">Gemini 2.5 Flash — fast, free tier (recommended)</option>
+        <option value="gemini-3.5-flash">Gemini 3.5 Flash — newest</option>
+        <option value="gemini-2.5-pro">Gemini 2.5 Pro — most capable</option>
+      </select></div>
+      <div class="io-row"><button class="btn btn-primary btn-sm" id="saveKeyBtn">Save & test</button><button class="btn btn-ghost btn-sm" id="clearKeyBtn">Remove key</button></div>
+      <div class="keynote">Get a key free at <b>aistudio.google.com</b> → API Keys → Create API key. Gemini has a free tier, so you may not need billing. Keep this file private — don't share it with the key saved. Works offline for tracking; reading & analysis need internet.<br><br><b>If the AI steps show a "couldn't reach Google" error:</b> open the file through a local address instead of double-clicking. In the file's folder run <b>python -m http.server</b> and open <b>http://localhost:8000/learning-tracker.html</b>.</div>
+    </div>
+    <div class="card"><h2>Children</h2><p class="sub">Add each child with their subjects and topics.</p><div id="kidManage"></div><button class="btn btn-ghost btn-sm" id="addKidBtn" style="margin-top:13px">+ Add child</button></div>
+    <div class="card"><h2>Edit syllabus</h2><p class="sub">Add or remove subjects and topics to match his school's exact units.</p><button class="btn btn-ghost btn-sm" id="editSyllabusBtn">Edit subjects & topics</button></div>
+    <div class="card">
+      <h2>Backup</h2><p class="sub">Data is saved on this device. Export a file to keep it safe or move it to another phone.</p>
+      <div class="io-row"><button class="btn btn-ghost btn-sm" id="exportBtn">Export backup</button><button class="btn btn-ghost btn-sm" id="importBtn">Import backup</button></div>
+      <input type="file" id="importFile" accept="application/json" style="display:none">
+      <div class="io-row" style="margin-top:11px"><button class="btn btn-ghost btn-sm danger" id="resetBtn">Reset all data</button></div>
+    </div>
+  </section>
+</main>
+
+<nav><div class="nav-inner">
+  <button class="tab on" data-v="dash"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>Dashboard</button>
+  <button class="tab" data-v="syllabus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Syllabus</button>
+  <button class="tab" data-v="sheets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 13h6M9 17h4"/></svg>Worksheets</button>
+  <button class="tab" data-v="manage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 7 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H1a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 2.6 7a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H7a1.6 1.6 0 0 0 1-1.5V1a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V7a1.6 1.6 0 0 0 1.5 1H23a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>Settings</button>
+</div></nav>
+
+<div class="scrim" id="scrim"><div class="sheet-m" id="sheetM"></div></div>
+<div class="toast" id="toast"></div>
+<div id="printArea" style="display:none"></div>
+
+<script>
+/* ===== storage (localStorage first → works offline in your own browser) ===== */
+const KEY='learning-tracker-v3';
+const mem={};
+async function sget(k){try{const v=localStorage.getItem(k);if(v!==null)return v;}catch(e){}try{if(window.storage){const r=await window.storage.get(k,false);return r?r.value:null;}}catch(e){}return mem[k]??null;}
+async function sset(k,v){try{localStorage.setItem(k,v);return;}catch(e){}try{if(window.storage){await window.storage.set(k,v,false);return;}}catch(e){}mem[k]=v;}
+
+/* ===== AI (your own Google Gemini key, called directly from this browser) ===== */
+function getCfg(){try{return JSON.parse(localStorage.getItem('lt-ai')||'{}');}catch(e){return {};}}
+function setCfg(o){try{localStorage.setItem('lt-ai',JSON.stringify(o));}catch(e){}}
+function hasKey(){return !!getCfg().key;}
+async function aiCall(promptText,media,wantJSON){
+  const cfg=getCfg();if(!cfg.key)throw {noKey:true};
+  const model=cfg.model||'gemini-2.5-flash';
+  const parts=[];
+  if(media)parts.push({inlineData:{mimeType:media.mime,data:media.data}});
+  parts.push({text:promptText});
+  const body={contents:[{role:'user',parts}]};
+  if(wantJSON)body.generationConfig={responseMimeType:'application/json'};
+  const url=`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(cfg.key)}`;
+  const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!res.ok){let t='';try{t=await res.text();}catch(e){}throw new Error('API '+res.status+(t?': '+t.slice(0,220):''));}
+  const data=await res.json();
+  const cand=data.candidates&&data.candidates[0];
+  if(!cand){const br=data.promptFeedback&&data.promptFeedback.blockReason;throw new Error(br?('blocked: '+br):'No response from model');}
+  return (cand.content&&cand.content.parts||[]).map(p=>p.text||'').join('');
+}
+function parseJSON(txt){const c=txt.replace(/```json/gi,'').replace(/```/g,'').trim();const a=c.indexOf('{'),b=c.lastIndexOf('}');return JSON.parse(a>=0?c.slice(a,b+1):c);}
+function fileToB64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
+
+/* ===== util ===== */
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const pad=n=>String(n).padStart(2,'0');
+const today=()=>{const d=new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function prettyDate(s){const[y,m,d]=s.split('-');const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return `${+d} ${M[+m-1]}`;}
+const rnd=n=>Math.floor(Math.random()*n);
+const pick=a=>a[rnd(a.length)];
+function sample(a,n){const c=[...a],out=[];while(out.length<n&&c.length)out.push(c.splice(rnd(c.length),1)[0]);return out;}
+let tT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('on'),2200);}
+
+const COL={English:'#3D6AE1',Marathi:'#EE8A3C',Maths:'#8E5BE0',EVS:'#2F9E6B',Hindi:'#E0566F',Other:'#64748B'};
+function subjColor(name){return COL[name]||'#64748B';}
+const AVPAL=['#8E5BE0','#3D6AE1','#EE8A3C','#2F9E6B','#E0566F'];
+
+/* ===== seed syllabus ===== */
+const SEED=[
+ ['English',['Capital letters A–Z','Small letters a–z','Letter sounds (phonics)','Vowels a e i o u','CVC words (cat, pin)','Sight words','Naming words (nouns)','Action words (verbs)','This/That, These/Those','One & many (plural)','Opposites','Rhymes & poems','Reading simple sentences','Picture reading']],
+ ['Marathi',['स्वर (अ – अः)','व्यंजन (क – ज्ञ)','बाराखडी ओळख','दोन अक्षरी शब्द','तीन अक्षरी शब्द','वाक्य वाचन','कविता व गाणी','चित्र वाचन','शब्दार्थ','नाम व सर्वनाम','अंक १ – १००']],
+ ['Maths',['Numbers 1–100','Number names','Before, after, between','Skip counting (2,5,10)','Compare: more / less','Addition up to 20','Subtraction up to 20','Tens and ones','2D shapes','Patterns','Measurement (long/short)','Money (coins)','Time & days of week','Ordinal numbers (1st–10th)']],
+ ['EVS',['Myself & body parts','Sense organs','My family','My home','My school','Food we eat','Water','Clothes','Plants around us','Animals around us','Means of transport','Festivals','Good habits & safety']],
+];
+function seedSubjects(){return SEED.map(([name,topics])=>({name,topics:topics.map(t=>({id:uid(),name:t,school:0,tuition:0,parent:0,mastery:0}))}));}
+
+/* ===== state ===== */
+let S={children:[],sheets:[],activeId:null,view:'dash'};
+function newChild(name){return {id:uid(),name:name||'Child 1',standard:'Std 1',board:'SSC',subjects:seedSubjects()};}
+async function load(){const raw=await sget(KEY);if(raw){try{S=JSON.parse(raw);}catch(e){}}if(!S.children||!S.children.length){S.children=[newChild('Child 1')];S.sheets=[];}if(!S.sheets)S.sheets=[];if(!S.reading)S.reading=[];if(!S.activeId||!S.children.find(c=>c.id===S.activeId))S.activeId=S.children[0].id;}
+async function save(){await sset(KEY,JSON.stringify(S));}
+const active=()=>S.children.find(c=>c.id===S.activeId)||S.children[0];
+function allTopics(){const out=[];active().subjects.forEach(s=>s.topics.forEach(t=>out.push({subject:s.name,t})));return out;}
+function findTopic(id){for(const s of active().subjects)for(const t of s.topics)if(t.id===id)return{subject:s.name,t};return null;}
+
+/* ===================================================================
+   LOCAL PRACTICE ENGINE  (no internet — generates fresh sheets)
+=================================================================== */
+const ONES=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+const TENS=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+function numWord(n){if(n<20)return ONES[n];if(n<100)return TENS[Math.floor(n/10)]+(n%10?'-'+ONES[n%10]:'');if(n===100)return 'one hundred';return ''+n;}
+const Q=(q,blank)=>({q,blank:blank!==false});
+
+function mathGen(t){
+  let q=[],a=[],title='Maths Practice';
+  if(/add|sum|plus/.test(t)){title='Addition Practice';for(let i=0;i<8;i++){const x=rnd(13)+1,y=rnd(20-x)+1;q.push(Q(`${x} + ${y} =`));a.push(x+y);}}
+  else if(/subtract|minus|take/.test(t)){title='Subtraction Practice';for(let i=0;i<8;i++){const x=rnd(15)+5,y=rnd(x+1);q.push(Q(`${x} − ${y} =`));a.push(x-y);}}
+  else if(/before|after|between/.test(t)){title='Before, After & Between';for(let i=0;i<8;i++){const n=rnd(95)+2,k=rnd(3);if(k===0){q.push(Q(`What comes after ${n}?`));a.push(n+1);}else if(k===1){q.push(Q(`What comes before ${n}?`));a.push(n-1);}else{q.push(Q(`Which number is between ${n} and ${n+2}?`));a.push(n+1);}}}
+  else if(/skip|count/.test(t)){title='Skip Counting';const steps=[2,5,10];for(let i=0;i<6;i++){const s=pick(steps),st=s*(rnd(4)+1);q.push(Q(`Count by ${s}: ${st}, ${st+s}, ___, ${st+3*s}, ___`));a.push(`${st+2*s} and ${st+4*s}`);}}
+  else if(/compare|more|less|big|small|great/.test(t)){title='Bigger or Smaller';for(let i=0;i<8;i++){let x=rnd(99)+1,y=rnd(99)+1;while(y===x)y=rnd(99)+1;const big=Math.random()<.5;q.push(Q(`Circle the ${big?'bigger':'smaller'} number:   ${x}   or   ${y}`,false));a.push(big?Math.max(x,y):Math.min(x,y));}}
+  else if(/ten|one|place/.test(t)){title='Tens and Ones';for(let i=0;i<8;i++){const n=rnd(89)+10;q.push(Q(`In ${n}:  tens = ____   ones = ____`,false));a.push(`${Math.floor(n/10)} tens, ${n%10} ones`);}}
+  else if(/name/.test(t)){title='Number Names';const ns=sample([4,7,9,11,13,15,18,20,25,30,40,50,60,80,100],8);ns.forEach(n=>{q.push(Q(`Write in words:  ${n} =`));a.push(numWord(n));});}
+  else if(/ordinal/.test(t)){title='Ordinal Numbers';const list=['Tick the 1st shape:  ▢ ▢ ▢ ▢ ▢','Colour the 3rd circle:  ◯ ◯ ◯ ◯ ◯','Cross the 5th box:  ▢ ▢ ▢ ▢ ▢','Circle the 2nd star:  ★ ★ ★ ★','Tick the 4th flower:  ✿ ✿ ✿ ✿ ✿','Who is 1st in a race — winner or last? ____','Which day is the 1st day of the week? ____','Colour the last (5th) ball:  ● ● ● ● ●'];list.forEach(x=>{q.push(Q(x,false));a.push('—');});}
+  else if(/shape/.test(t)){title='2D Shapes';const list=[['How many sides does a triangle have?',3],['How many corners does a square have?',4],['Name a shape that is round.','circle'],['A door is shaped like a ____.','rectangle'],['How many sides does a square have?',4],['Draw a triangle in this box.','—'],['What shape is a ball / coin?','circle'],['Which shape has no corners?','circle']];list.forEach(([qq,aa])=>{q.push(Q(qq,qq[0]!=='D'));a.push(aa);});}
+  else if(/pattern/.test(t)){title='Patterns';const pats=[['A B A B ___ ___','A B'],['● ▲ ● ▲ ___ ___','● ▲'],['1 2 1 2 ___ ___','1 2'],['red blue red blue ___ ___','red blue'],['★ ◯ ★ ◯ ___ ___','★ ◯'],['big small big small ___ ___','big small'],['C D C D ___ ___','C D'],['▲ ▲ ◯ ▲ ▲ ◯ ___ ___','▲ ▲']];pats.forEach(([qq,aa])=>{q.push(Q('Continue the pattern:  '+qq,false));a.push(aa);});}
+  else if(/measure|long|short|tall|heavy/.test(t)){title='Measurement';const list=['Which is longer — a pencil or a bus?  ____','Which is taller — a tree or a flower?  ____','Which is heavier — a stone or a feather?  ____','Which is shorter — your finger or your arm?  ____','Name something long in your house: ____','Name something short in your house: ____','Which holds more water — a cup or a bucket?  ____','Is an elephant big or small?  ____'];list.forEach(x=>{q.push(Q(x,false));a.push('—');});}
+  else if(/money|coin|rupee/.test(t)){title='Money (Coins)';const list=[['How many ₹1 coins make ₹5?',5],['₹2 + ₹2 = ₹',4],['₹5 + ₹5 = ₹',10],['How many ₹2 coins make ₹10?',5],['A toffee costs ₹2. Two toffees cost ₹',4],['₹10 + ₹5 = ₹',15],['Which is more — ₹5 or ₹2?','₹5'],['You have ₹10 and spend ₹6. Left = ₹',4]];list.forEach(([qq,aa])=>{q.push(Q(qq));a.push(aa);});}
+  else if(/time|day|clock|week/.test(t)){title='Time & Days';const list=[['How many days are in a week?',7],['Which comes first — morning or night?','morning'],['Name the day after Sunday.','Monday'],['Name the day before Friday.','Thursday'],['Do we sleep in the day or the night?','night'],['How many months are in a year?',12],['Name today\'s day: ','—'],['Sun rises in the morning or evening?','morning']];list.forEach(([qq,aa])=>{q.push(Q(qq,typeof aa==='number'));a.push(aa);});}
+  else{title='Numbers 1–100';for(let i=0;i<8;i++){const k=rnd(3),n=rnd(90)+5;if(k===0){q.push(Q(`Fill in: ${n}, ${n+1}, ___, ${n+3}, ___`));a.push(`${n+2} and ${n+4}`);}else if(k===1){q.push(Q(`Write the number:  ${numWord(n>20?Math.floor(n/10)*10:n)} =`));a.push(n>20?Math.floor(n/10)*10:n);}else{let y=rnd(99)+1;q.push(Q(`Which is bigger:  ${n} or ${y}?`,false));a.push(Math.max(n,y));}}}
+  return {title,questions:q,answers:a};
+}
+
+const VOW=['a','e','i','o','u'];
+const CVC=[['c_t','a'],['p_n','i'],['d_g','o'],['s_n','u'],['b_d','e'],['h_t','a'],['p_g','i'],['m_p','o'],['c_p','u'],['b_g','a'],['f_n','u'],['l_g','o']];
+const OPP=[['big','small'],['hot','cold'],['up','down'],['day','night'],['fast','slow'],['happy','sad'],['open','close'],['tall','short'],['in','out'],['full','empty'],['old','new'],['wet','dry']];
+const PLURAL=[['cat','cats'],['dog','dogs'],['book','books'],['pen','pens'],['ball','balls'],['cup','cups'],['box','boxes'],['bus','buses'],['car','cars'],['hat','hats']];
+function engGen(t){
+  let q=[],a=[],title='English Practice';
+  if(/sound|phonic/.test(t)){title='Letter Sounds';const sets=[['sun','cat','sit','sock'],['bat','ball','box','bun'],['mat','man','map','mug'],['top','tap','ten','toy']];const s=pick(sets);q.push(Q(`Which words start with '${s[0][0]}'?  ${s.join(', ')}`,false));a.push(s.join(', '));['b','m','s','t','f','r','p','d'].slice(0,7).forEach(L=>{q.push(Q(`What sound does the letter '${L}' make?`));a.push(`/${L}/`);});}
+  else if(/vowel/.test(t)){title='Vowels';q.push(Q('Circle the vowels:  a  t  e  p  i  m  o  u',false));a.push('a e i o u');sample(CVC,7).forEach(([w,v])=>{q.push(Q(`Fill the vowel:  ${w}`));a.push(w.replace('_',v));});}
+  else if(/cvc/.test(t)){title='CVC Words';sample(CVC,8).forEach(([w,v])=>{q.push(Q(`Fill the missing letter:  ${w}`));a.push(w.replace('_',v));});}
+  else if(/opposite/.test(t)){title='Opposites';sample(OPP,8).forEach(([w,o])=>{q.push(Q(`Opposite of '${w}' =`));a.push(o);});}
+  else if(/plural|many|one/.test(t)){title='One & Many';sample(PLURAL,8).forEach(([s1,p1])=>{q.push(Q(`one ${s1}  →  many ____`));a.push(p1);});}
+  else if(/noun|naming/.test(t)){title='Naming Words';const sets=[['run','ball','jump','apple','sing','dog'],['eat','table','play','milk','read','cat'],['fish','swim','book','hop','chair','write']];const s=pick(sets);q.push(Q(`Circle the naming words:  ${s.join(', ')}`,false));a.push('ball, apple, dog (things & names)');['Name a fruit','Name an animal','Name a colour','Name a toy','Name a person at home','Name a part of your body','Name a thing in your bag'].forEach(x=>{q.push(Q(x+':'));a.push('—');});}
+  else if(/verb|action/.test(t)){title='Action Words';const sets=[['cat','run','jump','table','eat'],['ball','sing','book','clap','milk'],['dog','swim','chair','read','sun']];const s=pick(sets);q.push(Q(`Circle the action words:  ${s.join(', ')}`,false));a.push('run/jump/eat… (doing words)');['What do you do with your legs? ____','What do you do with your eyes? ____','What do you do with food? ____','Write 3 action words you did today: ____','What does a bird do in the sky? ____','What do you do at bedtime? ____','What do you do with a ball? ____'].forEach(x=>{q.push(Q(x,false));a.push('—');});}
+  else if(/sight/.test(t)){title='Sight Words';['the','and','is','you','my','we','to','it'].forEach(w=>{q.push(Q(`Read and write twice:  ${w}  ____  ____`,false));a.push(w);});}
+  else if(/this|that|these|those/.test(t)){title='This / That';const list=[['____ book is near me. (this/that)','this'],['____ tree is far away. (this/that)','that'],['____ are my hands. (these/those)','these'],['____ birds are in the sky. (these/those)','those'],['____ is my pencil. (this/that)','this'],['____ flowers smell nice. (these/those)','these'],['Look at ____ star far away. (this/that)','that'],['____ shoes are mine. (these/those)','these']];list.forEach(([qq,aa])=>{q.push(Q(qq,false));a.push(aa);});}
+  else if(/rhyme/.test(t)){title='Rhyming Words';[['cat','hat, mat, bat'],['sun','bun, fun, run'],['bed','red, fed'],['dog','log, fog'],['pin','win, tin'],['top','hop, mop'],['car','jar, star'],['ten','hen, pen']].forEach(([w,r])=>{q.push(Q(`Write a word that rhymes with '${w}':`));a.push(r);});}
+  else if(/read|sentence|picture/.test(t)){title='Reading';const list=['Read aloud to a parent:  "The cat is on the mat."  ☐ done','Read aloud:  "I see a big red ball."  ☐ done','Draw a picture of your family and name them.','Read:  "We go to school."  Who goes? ____','Make a sentence with the word "dog": ____','Read:  "The sun is hot."  What is hot? ____','Draw your favourite animal and write its name: ____','Read:  "My bag is blue."  What colour is the bag? ____'];list.forEach(x=>{q.push(Q(x,false));a.push('—');});}
+  else{title='Letters A–Z';q.push(Q('Fill the missing letters:  A B __ D __ F G',false));a.push('C, E');q.push(Q('Fill the missing letters:  a b c __ e __ g',false));a.push('d, f');sample(['G','M','R','B','T','K','P','S','D','L'],6).forEach(L=>{q.push(Q(`Write the small letter for '${L}':`));a.push(L.toLowerCase());});}
+  return {title,questions:q,answers:a};
+}
+
+const SWAR=['अ','आ','इ','ई','उ','ऊ','ए','ऐ','ओ','औ','अं','अः'];
+const VYAN=['क','ख','ग','घ','च','छ','ज','झ','ट','ठ','ड','ढ','त','थ','द','ध','न','प','फ','ब','भ','म','य','र','ल','व','श','स','ह'];
+const MWORDS=['कमल','मासा','घर','पतंग','नमन','कप','बस','हात','मला','पाणी'];
+const MNUM=['१','२','३','४','५','६','७','८','९','१०'];
+const MNUMW={'एक':'१','दोन':'२','तीन':'३','चार':'४','पाच':'५','सहा':'६','सात':'७','आठ':'८','नऊ':'९','दहा':'१०'};
+function marGen(topic,t){
+  let q=[],a=[],title='मराठी सराव';
+  if(/स्वर|swar/.test(topic+t)){title='स्वर सराव';q.push(Q('रिकाम्या जागा भरा:  अ  आ  ___  ई  ___  ऊ',false));a.push('इ, उ');q.push(Q('पुढील स्वर लिहा:  ए  ऐ  ___  ___',false));a.push('ओ, औ');sample(SWAR,6).forEach(s=>{q.push(Q(`हा स्वर तीन वेळा लिहा:  ${s}`,false));a.push(s);});}
+  else if(/व्यंजन|vyanjan/.test(topic+t)){title='व्यंजन सराव';q.push(Q('रिकाम्या जागा भरा:  क  ख  ___  घ  ___  च',false));a.push('ग, ङ/च');for(let i=0;i<6;i++){const idx=rnd(VYAN.length-1);q.push(Q(`'${VYAN[idx]}' नंतर कोणते अक्षर येते?`));a.push(VYAN[idx+1]||'—');}q.push(Q('ही व्यंजने लिहा:  म  र  ल',false));a.push('म र ल');}
+  else if(/बाराखडी|barakhadi/.test(topic+t)){title='बाराखडी सराव';q.push(Q('क ची बाराखडी पूर्ण करा:  क  का  कि  ___  कु  ___  के  कै  को  कौ',false));a.push('की, कू');q.push(Q('म ची बाराखडी लिहा:  म  मा  ___  ___  मु  मू',false));a.push('मि, मी');q.push(Q('प ची बाराखडी पूर्ण करा:  प  ___  पि  पी  ___  पू',false));a.push('पा, पु');['क','ग','त','न','स'].forEach(L=>{q.push(Q(`'${L}' ची बाराखडी म्हणून दाखवा (मोठ्याने वाचा)  ☐`,false));a.push('—');});}
+  else if(/अंक|१|number|num/.test(topic+t)){title='अंक सराव (१–१००)';q.push(Q('१ ते १० अंक लिहा:',false));a.push('१ २ ३ ४ ५ ६ ७ ८ ९ १०');const ws=sample(Object.keys(MNUMW),7);ws.forEach(w=>{q.push(Q(`अंकात लिहा:  ${w} = ___`));a.push(MNUMW[w]);});}
+  else if(/शब्द|वाक्य|word|शब्दार्थ/.test(topic+t)){title='शब्द व वाचन';sample(MWORDS,6).forEach(w=>{q.push(Q(`वाचा व लिहा:  ${w}`,false));a.push(w);});q.push(Q('दोन अक्षरी शब्द लिहा (२):  ___  ___',false));a.push('उदा. घर, कप');q.push(Q('तीन अक्षरी शब्द लिहा (२):  ___  ___',false));a.push('उदा. कमल, मासा');}
+  else if(/नाम|सर्वनाम/.test(topic+t)){title='नाम व सर्वनाम';['एका फळाचे नाव लिहा:','एका प्राण्याचे नाव लिहा:','तुझ्या शाळेचे नाव लिहा:','एका रंगाचे नाव लिहा:','घरातील एका वस्तूचे नाव:','तुझ्या मित्राचे नाव:'].forEach(x=>{q.push(Q(x,false));a.push('—');});q.push(Q('रिकामी जागा भरा:  ___ शाळेत जातो. (मी/तू)',false));a.push('मी');q.push(Q('रिकामी जागा भरा:  ___ खेळतो. (तो/ती)',false));a.push('तो/ती');}
+  else{title='मराठी सराव';q.push(Q('स्वर लिहा (कोणतेही ५):',false));a.push('अ आ इ ई उ');q.push(Q('व्यंजन लिहा (कोणतीही ५):',false));a.push('क ख ग घ च');sample(MWORDS,6).forEach(w=>{q.push(Q(`वाचा व लिहा:  ${w}`,false));a.push(w);});}
+  return {title,questions:q,answers:a};
+}
+
+const EVS={
+  'body|sense':['Name 3 parts of your face: ____','Which body part do you SEE with? ____','Which part do you HEAR with? ____','Which part do you SMELL with? ____','How many fingers on one hand? ____','We taste food with our ____','Draw your face and label eyes, nose, mouth.','We walk with our ____'],
+  'family':['Name the people in your family.','Your mother\'s mother is your ____','Your father\'s father is your ____','Who cooks food at your home? ____','Name your brother / sister (if any): ____','Draw your family.','Who helps you with homework? ____','We should ____ our elders. (respect/fight)'],
+  'home':['Name 3 rooms in a house: ____','Where do we cook food? ____','Where do we sleep? ____','Where do we take a bath? ____','Name 2 things in your kitchen: ____','Draw your house.','We should keep our home ____ (clean/dirty)','What do we open to enter a house? ____'],
+  'school':['Name 3 things in your school bag: ____','Who teaches you in school? ____','Name your favourite subject: ____','We write on a ____ with chalk.','Name 2 friends in your class: ____','We should reach school on ____ (time/late)','Draw your school.','What do we say to our teacher in the morning? ____'],
+  'food':['Name 2 fruits: ____','Name 2 vegetables: ____','Which food is good for breakfast? ____','Milk comes from which animal? ____','We should wash hands ____ eating. (before/after)','Name a healthy food: ____','Name a junk food we should avoid: ____','Draw your favourite fruit.'],
+  'water':['Name 2 uses of water: ____','We should not ____ water. (waste/use)','Water comes from a tap, well or ____','Do we drink clean or dirty water? ____','Which falls from the sky as water? ____','We take a bath with ____','Plants need ____ to grow.','Draw a glass of water.'],
+  'cloth':['What do we wear in winter? ____','What do we wear in summer? ____','We wear ____ on our feet. (shoes/cap)','What do we wear when it rains? ____','Name 2 clothes you wear to school: ____','We should wear ____ clothes. (clean/dirty)','Draw your school uniform.','What do we wear on our head? ____'],
+  'plant':['Name 2 plants you know: ____','Plants need sunlight, water and ____','Which part of a plant is under the soil? ____','We get fruits from ____ (plants/animals)','Name a tree near your home: ____','Should we pluck flowers or care for them? ____','Draw a plant with leaves.','A small plant is called a ____'],
+  'animal':['Name 2 pet animals: ____','Name 2 wild animals: ____','Which animal gives us milk? ____','Which animal says "meow"? ____','Where does a fish live? ____','Which bird can fly? ____','Name an animal with a long neck: ____','Draw your favourite animal.'],
+  'transport':['Name 2 vehicles that run on road: ____','Which vehicle runs on water? ____','Which vehicle flies in the sky? ____','Which runs on a track? ____','How do you come to school? ____','We stop at a ____ light. (red/green)','Draw a vehicle you like.','How many wheels does a car have? ____'],
+  'festival':['Name 2 festivals you celebrate: ____','Which festival has lights and diyas? ____','Which festival has colours? ____','What sweet do you eat on festivals? ____','We wear ____ clothes on festivals. (new/old)','Draw a diya or rangoli.','Name a festival in your family: ____','We meet our ____ on festivals. (friends/family)'],
+  'habit|safe|clean':['Why should we wash our hands? ____','We cross the road on the ____ signal. (green/red)','We should brush our teeth ____ a day. (2 times)','We should ____ before eating. (wash hands)','Should we keep our nails clean or dirty? ____','We should not play with ____ (fire/toys)','Name one good habit: ____','We say "____" when someone helps us. (thank you)'],
+};
+function evsGen(topic,t){
+  const key=Object.keys(EVS).find(k=>k.split('|').some(w=>t.includes(w)));
+  let list=key?EVS[key]:[`Tell a parent 2 things about "${topic}".`,`Draw a picture about "${topic}" and name it.`,`Why is "${topic}" important? ____`,`Name 2 things you know about "${topic}": ____`,`Make a sentence about "${topic}": ____`,`What did you learn about "${topic}" in school? ____`,`Ask your parent one question about "${topic}".`,`Colour something related to "${topic}".`];
+  return {title:topic,questions:list.map(x=>Q(x,false)),answers:list.map(()=>'—')};
+}
+
+const PTIPS={
+  add:'Use chana/rajma or buttons — give him two small piles and let him push them together and count. Make it a "shop" game.',
+  subtract:'Start with a few biscuits, "eat" some, and count what\'s left. Doing it with real objects fixes the idea fast.',
+  letter:'Write letters in a tray of rava/atta with his finger — the touch helps far more than just looking.',
+  vowel:'Sing the a-e-i-o-u song and clap on each vowel while reading any word.',
+  cvc:'Make 3 paper cards (consonant–vowel–consonant) and slide them together to "build" and read words.',
+  opposite:'Play an opposite game while walking — you say "up", he shouts "down".',
+  number:'Count real things all day — stairs, plates, vehicles — so numbers feel real, not just on paper.',
+  shape:'Spot shapes around the house: clock=circle, door=rectangle, samosa=triangle.',
+  money:'Give him real coins and play "shopkeeper" — paying and giving change teaches money best.',
+  time:'Talk through the day — "morning we…, night we…" — and point to a clock at key moments.',
+  swar:'Say each स्वर aloud and have him trace it big in the air with his whole arm.',
+  vyanjan:'Practise 4–5 व्यंजन a day, not all at once — small batches stick better.',
+  barakhadi:'Sing the बाराखडी in a rhythm (क का कि की…) — the tune helps him remember the order.',
+  evs:'Don\'t make it a test — just talk and point at real things; ask him to "teach you back".',
+  default:'Keep it short and playful — 10 focused minutes with real objects beats a long worksheet.'
+};
+function pickTip(subject,t){
+  if(/add/.test(t))return PTIPS.add;if(/subtract/.test(t))return PTIPS.subtract;
+  if(/vowel/.test(t))return PTIPS.vowel;if(/cvc/.test(t))return PTIPS.cvc;if(/opposite/.test(t))return PTIPS.opposite;
+  if(/letter|sound|phonic/.test(t))return PTIPS.letter;
+  if(/shape/.test(t))return PTIPS.shape;if(/money|coin/.test(t))return PTIPS.money;if(/time|day|clock/.test(t))return PTIPS.time;
+  if(/number|count|skip|before|ten|name|ordinal|compare/.test(t))return PTIPS.number;
+  if(/स्वर|swar/.test(t))return PTIPS.swar;if(/व्यंजन|vyanjan/.test(t))return PTIPS.vyanjan;if(/बाराखडी|barakhadi/.test(t))return PTIPS.barakhadi;
+  if(subject==='EVS')return PTIPS.evs;
+  return PTIPS.default;
+}
+function genPractice(subject,topic){
+  const t=(topic||'').toLowerCase();let r;
+  if(subject==='Maths'||/\bnumber|add|subtract|count|shape|pattern|measur|money|time|ordinal|\bten|compar|more|less/.test(t))r=mathGen(t);
+  else if(subject==='Marathi'||/[ऀ-ॿ]/.test(topic))r=marGen(topic,t);
+  else if(subject==='English'||/letter|phonic|vowel|cvc|word|noun|verb|opposite|plural|sight|rhyme|read|this|picture/.test(t))r=engGen(t);
+  else if(subject==='EVS')r=evsGen(topic,t);
+  else r=engGen(t);
+  return {title:r.title,instructions:'Help him read each question. Let him write the answer in the blank.',questions:r.questions,answers:r.answers,parentTip:pickTip(subject,t),_subject:subject,_topic:topic};
+}
+
+/* ===== render: kid row ===== */
+function renderKidRow(){
+  const r=document.getElementById('kidRow');
+  r.innerHTML=S.children.map(c=>`<button class="kid-pill ${c.id===S.activeId?'on':''}" data-id="${c.id}">${esc(c.name)}</button>`).join('')+`<button class="kid-pill add" id="quickAddKid">+ Add</button>`;
+  r.querySelectorAll('.kid-pill[data-id]').forEach(b=>b.onclick=()=>{S.activeId=b.dataset.id;save();renderAll();});
+  document.getElementById('quickAddKid').onclick=addKidSheet;
+  const c=active();document.getElementById('brandSub').textContent=`${c.name} · ${c.standard||''} · ${c.board||''} Board`;
+}
+
+/* ===== dashboard ===== */
+function stats(){const tops=allTopics().map(x=>x.t);const total=tops.length||1;return {total,school:tops.filter(t=>t.school>=2).length,tuition:tops.filter(t=>t.tuition).length,parent:tops.filter(t=>t.parent).length,mastered:tops.filter(t=>t.mastery>=4).length,masteryPct:Math.round(tops.reduce((a,t)=>a+t.mastery,0)/(total*5)*100)};}
+function ring(pct,color,label,note){const r=28,C=2*Math.PI*r,off=C*(1-pct/100);return `<div class="ring-c"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="${r}" fill="none" stroke="${color}22" stroke-width="8"/><circle cx="36" cy="36" r="${r}" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}" transform="rotate(-90 36 36)" style="transition:stroke-dashoffset .9s cubic-bezier(.22,1,.36,1)" data-off="${off}"/><text x="36" y="41" text-anchor="middle" font-size="17" font-weight="900" fill="${color}" class="num">${pct}%</text></svg><div class="rl" style="color:${color}">${label}</div><div class="rn">${note}</div></div>`;}
+function countUp(id,to,suf){const el=document.getElementById(id);let start=null;function step(ts){if(!start)start=ts;const p=Math.min((ts-start)/650,1);el.textContent=Math.round(to*p)+(suf||'');if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+function renderDash(){
+  const st=stats();countUp('hlBig',st.masteryPct,'%');
+  document.getElementById('hlSub').textContent=`Mastered ${st.mastered} of ${st.total} topics`;
+  setTimeout(()=>document.getElementById('hlBar').style.width=st.masteryPct+'%',60);
+  const pc=v=>Math.round(v/st.total*100);
+  document.getElementById('rings').innerHTML=ring(pc(st.school),'var(--school)','School',`${st.school}/${st.total} taught`)+ring(pc(st.tuition),'var(--tuition)','Tuition',`${st.tuition}/${st.total} done`)+ring(pc(st.parent),'var(--parent)','You',`${st.parent}/${st.total} done`)+ring(st.masteryPct,'var(--mastery)','He knows',`${st.mastered} mastered`);
+  setTimeout(()=>document.querySelectorAll('#rings circle[data-off]').forEach(c=>c.style.strokeDashoffset=c.dataset.off),60);
+  document.getElementById('subjStacks').innerHTML=active().subjects.map(s=>{const n=s.topics.length||1;const taught=s.topics.filter(t=>t.school>=2||t.tuition||t.parent).length;const mast=s.topics.filter(t=>t.mastery>=4).length;const col=subjColor(s.name);return `<div class="subj-card"><div class="subj-head"><span class="subj-dot" style="background:${col}"></span><span class="sn">${esc(s.name)}</span><span class="sc num">${mast}/${n} mastered</span></div><div class="stack"><i style="width:0%;background:var(--mastery)" data-w="${mast/n*100}"></i><i style="width:0%;background:${col}55" data-w="${Math.max(0,(taught-mast))/n*100}"></i></div></div>`;}).join('');
+  setTimeout(()=>document.querySelectorAll('#subjStacks .stack i').forEach(i=>i.style.width=i.dataset.w+'%'),60);
+  renderGapList('gapList',allTopics().filter(x=>(x.t.school>=2||x.t.tuition||x.t.parent)&&x.t.mastery<4).sort((a,b)=>a.t.mastery-b.t.mastery),'Everything taught so far is mastered. 🎉');
+  renderGapList('parentList',allTopics().filter(x=>x.t.school>=2&&x.t.mastery<4&&!x.t.parent).sort((a,b)=>a.t.mastery-b.t.mastery),"You're on top of everything he's weak in. 👏");
+  renderMistakes();renderReading();
+}
+function renderGapList(elId,arr,emptyMsg){
+  const box=document.getElementById(elId);
+  if(!arr.length){box.innerHTML=`<div style="text-align:center;padding:16px;color:var(--ink-faint);font-size:13px;font-weight:800">${emptyMsg}</div>`;return;}
+  box.innerHTML=arr.slice(0,8).map(x=>{const col=subjColor(x.subject);const dots=[1,2,3,4,5].map(i=>`<i class="${i<=x.t.mastery?'f':''}"></i>`).join('');return `<div class="gap-item"><div class="gap-bar" style="background:${col}"></div><div class="gap-body"><div class="t">${esc(x.t.name)}</div><div class="m"><span style="color:${col}">${esc(x.subject)}</span><span class="mini-mast">${dots}</span></div></div><button class="gap-btn" data-practice="${x.t.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.6 5.7 21l2.3-7.2-6-4.4h7.6z"/></svg>Practice</button></div>`;}).join('');
+  box.querySelectorAll('[data-practice]').forEach(b=>b.onclick=()=>makePractice(b.dataset.practice));
+}
+
+/* ===== recurring mistakes ===== */
+function renderMistakes(){
+  const box=document.getElementById('mistakeList');
+  const map={};
+  S.sheets.filter(s=>s.childId===S.activeId&&s.kind==='worksheet'&&s.mistakes&&s.mistakes.length).forEach(s=>{
+    s.mistakes.forEach(m=>{const key=m.trim().toLowerCase();if(!key)return;if(!map[key])map[key]={text:m.trim(),count:0,subject:s.subject,topic:s.topic};map[key].count++;});
+  });
+  const rows=Object.values(map).sort((a,b)=>b.count-a.count);
+  if(!rows.length){box.innerHTML=`<div style="text-align:center;padding:16px;color:var(--ink-faint);font-size:13px;font-weight:800">No mistakes logged yet. Add them when you log a worksheet.</div>`;return;}
+  box.innerHTML=rows.slice(0,6).map(r=>`<div class="mistake-item"><div class="cnt num">${r.count}×</div><div class="mb"><div class="t">${esc(r.text)}</div><div class="s"><span style="color:${subjColor(r.subject)}">${esc(r.subject)}</span> · ${esc(r.topic)}</div></div></div>`).join('');
+}
+
+/* ===== reading log ===== */
+let rdFluency=0;
+function weekAgoISO(){const d=new Date();d.setDate(d.getDate()-6);return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;}
+function renderReading(){
+  const items=S.reading.filter(r=>r.childId===S.activeId).sort((a,b)=>b.date.localeCompare(a.date));
+  const wk=items.filter(r=>r.date>=weekAgoISO());
+  const mins=wk.reduce((a,r)=>a+(+r.minutes||0),0);
+  const days=new Set(wk.map(r=>r.date)).size;
+  // streak
+  const set=new Set(items.map(r=>r.date));let streak=0,d=today();if(!set.has(d))d=addDay(d,-1);while(set.has(d)){streak++;d=addDay(d,-1);}
+  document.getElementById('readStats').innerHTML=`<div class="rs-c"><div class="v num">${mins}</div><div class="l">min this week</div></div><div class="rs-c"><div class="v num">${days}</div><div class="l">days read</div></div><div class="rs-c"><div class="v num">${streak}</div><div class="l">day streak</div></div>`;
+  const box=document.getElementById('readList');
+  box.innerHTML=items.slice(0,5).map(r=>{const dots=[1,2,3,4,5].map(i=>`<i class="${i<=r.fluency?'f':''}"></i>`).join('');return `<div class="read-item"><span class="fl-dots">${dots}</span><span class="t">${esc(r.what||'Reading')}</span><span class="mn num">${r.minutes||0}m · ${prettyDate(r.date)}</span><button class="entry-del" data-rddel="${r.id}" style="border:none;background:none;color:var(--ink-faint);padding:2px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button></div>`;}).join('');
+  box.querySelectorAll('[data-rddel]').forEach(b=>b.onclick=()=>{S.reading=S.reading.filter(x=>x.id!==b.dataset.rddel);save();renderReading();});
+}
+function addDay(s,n){const[y,m,d]=s.split('-').map(Number);const dt=new Date(y,m-1,d);dt.setDate(dt.getDate()+n);return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`;}
+function bindReading(){
+  document.getElementById('rdDate').value=today();
+  document.querySelectorAll('#rdFluency button').forEach(b=>b.onclick=()=>{rdFluency=+b.dataset.v;document.querySelectorAll('#rdFluency button').forEach(x=>x.classList.toggle('on',+x.dataset.v===rdFluency));});
+  document.getElementById('rdSaveBtn').onclick=()=>{
+    const what=document.getElementById('rdWhat').value.trim();
+    const min=document.getElementById('rdMin').value;
+    S.reading.unshift({id:uid(),childId:S.activeId,date:document.getElementById('rdDate').value||today(),what:what||'Reading',minutes:+min||0,fluency:rdFluency});
+    save();
+    document.getElementById('rdWhat').value='';document.getElementById('rdMin').value='';
+    rdFluency=0;document.querySelectorAll('#rdFluency button').forEach(x=>x.classList.remove('on'));
+    toast('Reading logged ✓');renderReading();
+  };
+}
+
+/* ===================================================================
+   CLAUDE AI  (uses your own API key, called directly from this browser)
+=================================================================== */
+function aiErrText(e){
+  const m=(e&&e.message)||'';
+  if(e&&e.noKey)return 'Add your Gemini key in Settings first.';
+  if(/API key not valid|API_KEY_INVALID|invalid api key/i.test(m))return 'Key not valid — create a fresh key at aistudio.google.com → API Keys and paste it again.';
+  if(/expired|unregistered|restrict|unrestricted|blocked|consumer/i.test(m))return 'Key blocked by Google\'s new rules — make a NEW key at aistudio.google.com (new keys work automatically).';
+  if(/quota|RESOURCE_EXHAUSTED|rate|429/i.test(m))return 'Free quota used up for now — wait a bit, or enable billing in Google AI Studio.';
+  if(/permission|PERMISSION_DENIED|403/i.test(m))return 'Permission denied — the key isn\'t allowed to use the Gemini API. Make a new key in AI Studio.';
+  if(/not.*found|NOT_FOUND|is not supported|404/i.test(m))return 'That model isn\'t available to your key — switch the model in Settings and Save & test.';
+  if(/blocked/i.test(m))return 'Google blocked that image/content. Try a clearer photo of just the worksheet.';
+  if(/Failed to fetch|NetworkError|load failed|CORS/i.test(m))return 'Couldn\'t reach Google — check internet, or run via localhost (see the note in Settings).';
+  const mm=m.match(/"message"\s*:\s*"([^"]+)"/);
+  if(mm)return mm[1];
+  return m||'Check key & internet in Settings.';
+}
+function renderAIStatus(){
+  const cfg=getCfg();const on=!!cfg.key;const k=cfg.key||'';
+  const st=document.getElementById('aiStatus');
+  let txt,cls;
+  if(!on){txt='Not connected — add your key to unlock AI features.';cls='off';}
+  else if(cfg.tested){txt=`Connected ✓ — key …${esc(k.slice(-4))} (${k.length} chars).`;cls='on';}
+  else{txt=`Key saved (…${esc(k.slice(-4))}, ${k.length} chars) — tap Save & test to verify.`;cls='off';}
+  if(st)st.innerHTML=`<div class="ai-status ${cls}"><span class="pip"></span>${txt}</div>`;
+  const ai=document.getElementById('apiKeyIn'),md=document.getElementById('modelIn');
+  if(ai&&!ai.value&&cfg.key)ai.placeholder='•••• key saved — paste again only to change ••••';
+  if(md&&cfg.model)md.value=cfg.model;
+  const ready=on&&cfg.tested!==false;
+  const rc=document.getElementById('aiReaderCard'),ac=document.getElementById('aiAnalysisCard');
+  if(rc)rc.classList.toggle('locked',!on);
+  if(ac)ac.classList.toggle('locked',!on);
+  const sub=document.getElementById('aiReaderSub');
+  if(sub)sub.textContent=on?'Snap a photo of a completed sheet. Gemini reads it, grades it, and updates his mastery.':'Add your Gemini API key in Settings to switch this on. (You can still log sheets manually below.)';
+}
+function bindKey(){
+  document.getElementById('saveKeyBtn').onclick=async()=>{
+    // strip spaces, line breaks, quotes and hidden characters that break copy-paste
+    const raw=document.getElementById('apiKeyIn').value;
+    const key=raw.replace(/[\s"'`\u200B-\u200D\uFEFF]/g,'');
+    const model=document.getElementById('modelIn').value;
+    const cfg=getCfg();
+    if(key)cfg.key=key; cfg.model=model; cfg.tested=undefined; setCfg(cfg);
+    document.getElementById('apiKeyIn').value='';
+    if(!getCfg().key){toast('Enter a key first');renderAIStatus();return;}
+    const btn=document.getElementById('saveKeyBtn');btn.innerHTML='<span class="spinner spin-dark"></span> Testing…';btn.disabled=true;
+    try{await aiCall('Reply with the single word: ok');const c=getCfg();c.tested=true;setCfg(c);toast('Connected ✓');}
+    catch(e){const c=getCfg();c.tested=false;setCfg(c);toast(aiErrText(e));}
+    btn.innerHTML='Save & test';btn.disabled=false;renderAIStatus();
+  };
+  document.getElementById('clearKeyBtn').onclick=()=>{const cfg=getCfg();delete cfg.key;delete cfg.tested;setCfg(cfg);document.getElementById('apiKeyIn').value='';toast('Key removed');renderAIStatus();};
+}
+
+/* ---- worksheet photo reader ---- */
+let pendingFile=null,pendingB64=null;
+function bindUpload(){
+  const fi=document.getElementById('fileIn');if(!fi)return;
+  fi.onchange=async e=>{
+    const f=e.target.files[0];if(!f)return;
+    pendingFile=f;document.getElementById('resultWrap').innerHTML='';
+    pendingB64=await fileToB64(f);
+    if(f.type==='application/pdf')document.getElementById('previewWrap').innerHTML=`<div class="preview"><div class="pdf">📄 ${esc(f.name)}</div></div>`;
+    else document.getElementById('previewWrap').innerHTML=`<div class="preview"><img src="${URL.createObjectURL(f)}"></div>`;
+    document.getElementById('analyzeWrap').innerHTML=`<button class="btn btn-grad" id="analyzeBtn" style="margin-top:11px">Read this worksheet</button>`;
+    document.getElementById('analyzeBtn').onclick=analyzeSheet;
+  };
+}
+async function analyzeSheet(){
+  if(!hasKey()){toast('Add your Gemini key in Settings first');setView('manage');return;}
+  const btn=document.getElementById('analyzeBtn');btn.innerHTML='<span class="spinner"></span> Reading…';btn.disabled=true;
+  const subjList=active().subjects.map(s=>s.name).join(', ');
+  const prompt=`You help a parent track a Standard 1 child (~6 years, SSC Maharashtra board). This image is a worksheet the child has done. Analyse it.
+Return ONLY valid JSON, no markdown:
+{"subject":"one of: ${subjList}, or Other","topic":"short specific topic","summary":"one short sentence: what it covers and how the child did","score":"X/Y or null","mastery":0-5 integer grasp estimate,"mistakes":["up to 4 short specific errors"],"strengths":["up to 2 short"],"weakAreas":["up to 3 sub-skills to practise"]}`;
+  const media={mime:pendingFile.type||'image/jpeg',data:pendingB64};
+  try{const txt=await aiCall(prompt,media,true);showResult(parseJSON(txt));}
+  catch(e){document.getElementById('resultWrap').innerHTML=`<div class="notice" style="margin-top:12px">Couldn't read it — ${esc(aiErrText(e))}</div>`;}
+  btn.innerHTML='Read again';btn.disabled=false;
+}
+function topicOptionsFor(subject,aiTopic){
+  let best=null,bestScore=0;const lc=(aiTopic||'').toLowerCase();
+  subject.topics.forEach(t=>{let sc=0;lc.split(/\s+/).forEach(w=>{if(w.length>2&&t.name.toLowerCase().includes(w))sc++;});if(sc>bestScore){bestScore=sc;best=t.id;}});
+  return subject.topics.map(t=>`<option value="${t.id}" ${t.id===best?'selected':''}>${esc(t.name)}</option>`).join('')+`<option value="__new__">+ Add "${esc(aiTopic||'new')}" as new</option>`;
+}
+function showResult(r){
+  const col=subjColor(r.subject);
+  const bestSub=active().subjects.find(s=>s.name===r.subject)||active().subjects[0];
+  document.getElementById('resultWrap').innerHTML=`<div class="result">
+    <div class="result-head" style="background:${col}"><span class="rt">${esc(r.subject)} · ${esc(r.topic)}</span>${r.score?`<span class="rs num">${esc(r.score)}</span>`:''}</div>
+    <div class="result-body">
+      <div class="rline">${esc(r.summary)}</div>
+      ${(r.strengths&&r.strengths.length)?`<div class="rtags">${r.strengths.map(s=>`<span class="rtag good">✓ ${esc(s)}</span>`).join('')}</div>`:''}
+      ${(r.mistakes&&r.mistakes.length)?`<div class="rsection">Mistakes</div><div class="rtags">${r.mistakes.map(s=>`<span class="rtag bad">${esc(s)}</span>`).join('')}</div>`:''}
+      ${(r.weakAreas&&r.weakAreas.length)?`<div class="rsection">Practise next</div><div class="rtags">${r.weakAreas.map(s=>`<span class="rtag" style="background:var(--gold-soft);color:#9A6B00">${esc(s)}</span>`).join('')}</div>`:''}
+      <div class="rsection">Apply grasp ${r.mastery}/5 to topic</div>
+      <div class="apply-row"><select id="applySubject">${active().subjects.map(s=>`<option ${s.name===r.subject?'selected':''}>${esc(s.name)}</option>`).join('')}</select><select id="applyTopic">${topicOptionsFor(bestSub,r.topic)}</select></div>
+      <button class="btn btn-dark" id="applyBtn" style="margin-top:10px">Save to tracker</button>
+      <div class="btn2"><button class="btn btn-grad btn-sm" id="genP">Make practice sheet</button></div>
+    </div></div>`;
+  document.getElementById('applySubject').onchange=e=>{const s=active().subjects.find(x=>x.name===e.target.value)||active().subjects[0];document.getElementById('applyTopic').innerHTML=topicOptionsFor(s,r.topic);};
+  document.getElementById('applyBtn').onclick=()=>applyResult(r);
+  document.getElementById('genP').onclick=()=>{const sn=document.getElementById('applySubject').value;const p=genPractice(sn,r.topic);p._mistakes=r.weakAreas;showPractice(p);};
+}
+function applyResult(r){
+  const subjName=document.getElementById('applySubject').value;
+  const subject=active().subjects.find(s=>s.name===subjName)||active().subjects[0];
+  let topicId=document.getElementById('applyTopic').value;
+  if(topicId==='__new__'){const nt={id:uid(),name:r.topic||'New topic',school:2,tuition:0,parent:0,mastery:0};subject.topics.push(nt);topicId=nt.id;}
+  const t=subject.topics.find(x=>x.id===topicId);
+  t.mastery=Math.max(0,Math.min(5,r.mastery||t.mastery));if(t.school<2)t.school=2;
+  S.sheets.unshift({id:uid(),childId:S.activeId,date:today(),kind:'worksheet',subject:subjName,topic:r.topic,score:r.score||null,mastery:r.mastery,mistakes:r.mistakes||[]});
+  save();toast('Saved — mastery updated ✓');renderDash();renderSyllabus();renderDB();
+}
+
+/* ---- dashboard progress analysis ---- */
+function bindAskClaude(){
+  const b=document.getElementById('askClaudeBtn');if(!b)return;
+  b.onclick=async()=>{
+    if(!hasKey()){toast('Add your Gemini key in Settings first');setView('manage');return;}
+    b.innerHTML='<span class="spinner"></span> Thinking…';b.disabled=true;
+    const c=active();const st=stats();
+    const weak=allTopics().filter(x=>(x.t.school>=2||x.t.tuition||x.t.parent)&&x.t.mastery<4).map(x=>`${x.subject}: ${x.t.name} (${x.t.mastery}/5)`).slice(0,15);
+    const mist={};S.sheets.filter(s=>s.childId===c.id&&s.kind==='worksheet').forEach(s=>(s.mistakes||[]).forEach(m=>mist[m.trim().toLowerCase()]=(mist[m.trim().toLowerCase()]||0)+1));
+    const topMist=Object.entries(mist).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([m,n])=>`${m} (${n}x)`);
+    const rd=S.reading.filter(r=>r.childId===c.id);
+    const prompt=`You are a warm, practical tutor advising a parent of ${c.name}, a Standard 1 (SSC Maharashtra) child.
+Data:
+- Mastered ${st.mastered}/${st.total} topics (${st.masteryPct}% overall).
+- Taught: school ${st.school}, tuition ${st.tuition}, parent ${st.parent} (of ${st.total}).
+- Weak topics (taught but grasp<4): ${weak.join('; ')||'none'}.
+- Recurring mistakes: ${topMist.join('; ')||'none logged'}.
+- Reading log entries: ${rd.length} (avg fluency ${rd.length?(rd.reduce((a,r)=>a+(r.fluency||0),0)/rd.length).toFixed(1):'—'}/5).
+Give the parent a short, encouraging analysis in plain language. Use these exact section headers on their own lines: "How he's doing", "Focus this week", "Quick wins at home". Under each, 2-3 short bullet lines starting with "- ". Be specific to the data. Keep it under 200 words.`;
+    try{const txt=await aiCall(prompt);
+      const html=esc(txt).replace(/^(How he's doing|Focus this week|Quick wins at home).*$/gm,m=>`<b>${m}</b>`);
+      document.getElementById('aiAnalysisOut').innerHTML=`<div class="ai-out"><div class="blk">${html}</div></div>`;
+    }catch(e){document.getElementById('aiAnalysisOut').innerHTML=`<div class="ai-out"><div class="blk">Couldn't analyse — ${esc(aiErrText(e))}</div></div>`;}
+    b.innerHTML='Analyse again';b.disabled=false;
+  };
+}
+
+/* ===== syllabus ===== */
+function renderSyllabus(){
+  const box=document.getElementById('syllabus');
+  box.innerHTML=active().subjects.map(s=>{const n=s.topics.length||1;const mast=s.topics.filter(t=>t.mastery>=4).length;const col=subjColor(s.name);const open=s._open?'open':'';return `<div class="subj-block"><button class="subj-toggle ${open}" data-subtog="${esc(s.name)}"><span class="subj-dot" style="width:13px;height:13px;background:${col}"></span><span class="sn">${esc(s.name)}</span><span class="pct num" style="color:${col}">${mast}/${n}</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="topic-list ${open}">${s.topics.map(t=>topicRow(t,col)).join('')||'<div style="padding:10px;color:var(--ink-faint);font-size:13px;font-weight:700">No topics yet — add some in Settings.</div>'}</div></div>`;}).join('');
+  box.querySelectorAll('[data-subtog]').forEach(b=>b.onclick=()=>{const s=active().subjects.find(x=>x.name===b.dataset.subtog);s._open=!s._open;renderSyllabus();});
+  box.querySelectorAll('[data-school]').forEach(b=>b.onclick=()=>{const{t}=findTopic(b.dataset.school);t.school=(t.school+1)%3;save();renderSyllabus();});
+  box.querySelectorAll('[data-tuition]').forEach(b=>b.onclick=()=>{const{t}=findTopic(b.dataset.tuition);t.tuition=t.tuition?0:1;save();renderSyllabus();});
+  box.querySelectorAll('[data-parent]').forEach(b=>b.onclick=()=>{const{t}=findTopic(b.dataset.parent);t.parent=t.parent?0:1;save();renderSyllabus();});
+  box.querySelectorAll('[data-mast]').forEach(b=>b.onclick=()=>{const[id,v]=b.dataset.mast.split('|');const{t}=findTopic(id);t.mastery=(t.mastery==+v)?+v-1:+v;save();renderSyllabus();});
+  box.querySelectorAll('[data-tpractice]').forEach(b=>b.onclick=()=>makePractice(b.dataset.tpractice));
+}
+function topicRow(t,col){
+  const schoolCls=t.school===2?'on':(t.school===1?'half':'');
+  const dots=[1,2,3,4,5].map(i=>`<button class="${i<=t.mastery?'f':''}" data-mast="${t.id}|${i}"></button>`).join('');
+  return `<div class="topic"><div class="tn">${esc(t.name)}</div><div class="topic-ctrls"><button class="cbtn school ${schoolCls}" data-school="${t.id}"><span class="led" style="${t.school?'background:#fff':''}"></span>${t.school===1?'Teaching':'School'}${t.school===2?' ✓':''}</button><button class="cbtn tuition ${t.tuition?'on':''}" data-tuition="${t.id}"><span class="led" style="${t.tuition?'background:#fff':''}"></span>Tuition${t.tuition?' ✓':''}</button><button class="cbtn parent ${t.parent?'on':''}" data-parent="${t.id}"><span class="led" style="${t.parent?'background:#fff':''}"></span>You${t.parent?' ✓':''}</button><span class="mast-pick"><span class="ml">knows</span>${dots}</span></div><div class="prow"><button class="t-practice" data-tpractice="${t.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.6 5.7 21l2.3-7.2-6-4.4h7.6z"/></svg>Make a practice sheet</button></div></div>`;
+}
+
+/* ===== practice (local) ===== */
+function makePractice(topicId){const ft=findTopic(topicId);if(!ft)return;const p=genPractice(ft.subject,ft.t.name);S.sheets.unshift({id:uid(),childId:S.activeId,date:today(),kind:'practice',subject:ft.subject,topic:ft.t.name,data:p});save();renderDB();showPractice(p);}
+function showPractice(p){
+  const inner=practiceHTML(p);
+  openSheet(`<h3>Practice sheet ready</h3><div class="h3sub">${esc(p._subject||'')} · ${esc(p._topic||'')}</div><div>${inner}</div><div class="sheet-actions"><button class="btn btn-ghost" id="regenSh">New questions</button><button class="btn btn-primary" id="printSh">Print / Save PDF</button></div><button class="btn btn-ghost btn-sm" id="closeSh2" style="margin-top:9px;width:100%">Close</button>`);
+  document.getElementById('closeSh2').onclick=closeSheet;
+  document.getElementById('regenSh').onclick=()=>{const np=genPractice(p._subject,p._topic);showPractice(np);};
+  document.getElementById('printSh').onclick=()=>{document.getElementById('printArea').innerHTML=inner;document.getElementById('printArea').style.display='block';window.print();setTimeout(()=>{document.getElementById('printArea').style.display='none';},400);};
+}
+function practiceHTML(p){
+  const qs=(p.questions||[]).map((q,i)=>`<div class="pq"><span class="qn num">${i+1}.</span>${esc(q.q)}${q.blank?'<span class="qline"></span>':''}</div>`).join('');
+  const ans=(p.answers&&p.answers.length)?`<div class="answers"><b>Answer key:</b> ${p.answers.map((a,i)=>`${i+1}) ${esc(a)}`).join('   ·   ')}</div>`:'';
+  return `<div class="psheet"><div class="ph"><div class="pt">${esc(p.title||'Practice')}</div><div class="pi">${esc(p.instructions||'')}</div><div class="meta"><span>Name: ____________</span><span>Date: ${prettyDate(today())}</span></div></div>${qs}${p.parentTip?`<div class="ptip"><b>Tip for you:</b> ${esc(p.parentTip)}</div>`:''}${ans}</div>`;
+}
+
+/* ===== worksheet log ===== */
+let logMastery=0;
+function fillLogSelects(){
+  const ss=document.getElementById('logSubject');
+  ss.innerHTML=active().subjects.map(s=>`<option>${esc(s.name)}</option>`).join('');
+  fillLogTopics();
+}
+function fillLogTopics(){
+  const sname=document.getElementById('logSubject').value;
+  const s=active().subjects.find(x=>x.name===sname)||active().subjects[0];
+  document.getElementById('logTopic').innerHTML=s.topics.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('');
+}
+function bindLog(){
+  document.getElementById('logDate').value=today();
+  document.getElementById('logSubject').onchange=fillLogTopics;
+  document.querySelectorAll('#logMastery button').forEach(b=>b.onclick=()=>{logMastery=+b.dataset.v;document.querySelectorAll('#logMastery button').forEach(x=>x.classList.toggle('on',+x.dataset.v===logMastery));});
+  document.getElementById('saveLogBtn').onclick=saveLog;
+}
+function saveLog(){
+  const topicId=document.getElementById('logTopic').value;const ft=findTopic(topicId);if(!ft){toast('Pick a topic');return;}
+  const got=document.getElementById('logGot').value,max=document.getElementById('logMax').value;
+  const score=(got!==''&&max!=='')?`${got}/${max}`:null;
+  const mistakes=document.getElementById('logMistakes').value.trim();
+  ft.t.mastery=logMastery;if(ft.t.school<2)ft.t.school=2;
+  S.sheets.unshift({id:uid(),childId:S.activeId,date:document.getElementById('logDate').value||today(),kind:'worksheet',subject:ft.subject,topic:ft.t.name,score,mastery:logMastery,mistakes:mistakes?[mistakes]:[]});
+  save();
+  document.getElementById('logGot').value='';document.getElementById('logMax').value='';document.getElementById('logMistakes').value='';
+  logMastery=0;document.querySelectorAll('#logMastery button').forEach(x=>x.classList.remove('on'));
+  toast('Saved — mastery updated ✓');renderDash();renderSyllabus();renderDB();
+  document.getElementById('logPractice').innerHTML=`<button class="btn btn-grad" id="logMakeP" style="margin-top:11px">Make a practice sheet for this topic</button>`;
+  document.getElementById('logMakeP').onclick=()=>makePractice(topicId);
+}
+
+/* ===== worksheet DB ===== */
+function renderDB(){
+  const box=document.getElementById('dbList');
+  const items=S.sheets.filter(s=>s.childId===S.activeId);
+  if(!items.length){box.innerHTML=`<div class="empty"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/></svg></div><b>No sheets yet</b><span>Log a worksheet above to start his history.</span></div>`;return;}
+  box.innerHTML=items.map(s=>{const col=subjColor(s.subject);const isP=s.kind==='practice';const ic=isP?'<path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.6 5.7 21l2.3-7.2-6-4.4h7.6z"/>':'<path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/>';const meta=isP?'Practice sheet':`${s.score?s.score+' · ':''}grasp ${s.mastery}/5`;return `<div class="sheet-item" data-sheet="${s.id}"><div class="sheet-ic" style="background:${col}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">${ic}</svg></div><div class="sheet-body"><div class="t">${esc(s.topic)}</div><div class="m">${esc(s.subject)} · ${prettyDate(s.date)} · ${meta}</div></div></div>`;}).join('');
+  box.querySelectorAll('[data-sheet]').forEach(b=>b.onclick=()=>{const s=S.sheets.find(x=>x.id===b.dataset.sheet);if(s.kind==='practice'){s.data._subject=s.subject;s.data._topic=s.topic;showPractice(s.data);}else viewWorksheet(s);});
+}
+function viewWorksheet(s){
+  openSheet(`<h3>${esc(s.topic)}</h3><div class="h3sub">${esc(s.subject)} · ${prettyDate(s.date)}</div><div class="card" style="margin:0 0 8px"><div class="rtags">${s.score?`<span class="rtag good">Score ${esc(s.score)}</span>`:''}<span class="rtag" style="background:#E2F4EA;color:#1E7A48">Grasp ${s.mastery}/5</span></div>${(s.mistakes&&s.mistakes.length)?`<div class="rsection">Got wrong</div><div class="rtags">${s.mistakes.map(m=>`<span class="rtag bad">${esc(m)}</span>`).join('')}</div>`:''}</div><div class="sheet-actions"><button class="btn btn-ghost danger" id="delSheet">Delete</button><button class="btn btn-grad" id="makeP">Make practice</button></div>`);
+  document.getElementById('delSheet').onclick=()=>{S.sheets=S.sheets.filter(x=>x.id!==s.id);save();closeSheet();renderDB();};
+  document.getElementById('makeP').onclick=()=>{const p=genPractice(s.subject,s.topic);showPractice(p);};
+}
+
+/* ===== manage ===== */
+function renderManage(){
+  const box=document.getElementById('kidManage');
+  box.innerHTML=S.children.map((c,i)=>{const n=c.subjects.reduce((a,s)=>a+s.topics.length,0);return `<div class="mkid"><div class="av" style="background:${AVPAL[i%AVPAL.length]}">${(c.name[0]||'?').toUpperCase()}</div><div class="mkid-body"><div class="n">${esc(c.name)}</div><div class="s">${esc(c.standard||'')} · ${esc(c.board||'')} · ${c.subjects.length} subjects · ${n} topics</div></div><button class="btn btn-ghost btn-sm" data-editkid="${c.id}">Edit</button></div>`;}).join('');
+  box.querySelectorAll('[data-editkid]').forEach(b=>b.onclick=()=>editKidSheet(b.dataset.editkid));
+}
+function addKidSheet(){
+  openSheet(`<h3>Add child</h3><div class="field"><label class="fl">Name</label><input type="text" id="kName" placeholder="Child's name"></div><div class="field"><label class="fl">Class / Standard</label><input type="text" id="kStd" value="Std 1"></div><div class="field"><label class="fl">Board</label><input type="text" id="kBoard" value="SSC"></div><div class="h3sub">Starts with the SSC Std 1 syllabus (English, Marathi, Maths, EVS). Editable after.</div><div class="sheet-actions"><button class="btn btn-ghost" id="closeSh">Cancel</button><button class="btn btn-primary" id="saveKid">Add child</button></div>`);
+  document.getElementById('closeSh').onclick=closeSheet;
+  document.getElementById('saveKid').onclick=()=>{const c=newChild(document.getElementById('kName').value.trim()||'Child');c.standard=document.getElementById('kStd').value.trim()||'Std 1';c.board=document.getElementById('kBoard').value.trim()||'SSC';S.children.push(c);S.activeId=c.id;save();closeSheet();renderAll();};
+}
+function editKidSheet(id){
+  const c=S.children.find(x=>x.id===id);
+  openSheet(`<h3>Edit child</h3><div class="field"><label class="fl">Name</label><input type="text" id="kName" value="${esc(c.name)}"></div><div class="field"><label class="fl">Class / Standard</label><input type="text" id="kStd" value="${esc(c.standard||'')}"></div><div class="field"><label class="fl">Board</label><input type="text" id="kBoard" value="${esc(c.board||'')}"></div><div class="sheet-actions">${S.children.length>1?'<button class="btn btn-ghost danger" id="delKid">Delete</button>':''}<button class="btn btn-primary" id="saveKid">Save</button></div>`);
+  document.getElementById('saveKid').onclick=()=>{c.name=document.getElementById('kName').value.trim()||'Child';c.standard=document.getElementById('kStd').value.trim();c.board=document.getElementById('kBoard').value.trim();save();closeSheet();renderAll();};
+  if(S.children.length>1)document.getElementById('delKid').onclick=()=>{if(!confirm(`Delete ${c.name} and all their data?`))return;S.sheets=S.sheets.filter(x=>x.childId!==c.id);S.children=S.children.filter(x=>x.id!==c.id);S.activeId=S.children[0].id;save();closeSheet();renderAll();};
+}
+function editSyllabusSheet(){
+  const c=active();
+  const body=c.subjects.map(s=>{const col=subjColor(s.name);const tops=s.topics.map(t=>`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line-soft)"><span style="flex:1;font-size:13px;font-weight:700">${esc(t.name)}</span><button class="btn btn-sm danger" style="padding:4px 9px" data-rmtopic="${t.id}">remove</button></div>`).join('');return `<div class="subj-card"><div class="subj-head"><span class="subj-dot" style="background:${col}"></span><span class="sn">${esc(s.name)}</span><button class="btn btn-sm danger" style="padding:4px 9px" data-rmsubj="${esc(s.name)}">delete</button></div>${tops}<div style="display:flex;gap:7px;margin-top:9px"><input type="text" placeholder="Add topic…" data-addtopicin="${esc(s.name)}" style="flex:1"><button class="btn btn-ghost btn-sm" data-addtopic="${esc(s.name)}">Add</button></div></div>`;}).join('');
+  openSheet(`<h3>Edit syllabus</h3><div class="h3sub">${esc(c.name)} · keep it matched to his school's units</div>${body}<div style="display:flex;gap:7px;margin:6px 0 4px"><input type="text" id="newSubjIn" placeholder="Add a subject (e.g. Hindi)" style="flex:1"><button class="btn btn-ghost btn-sm" id="addSubjBtn">Add</button></div><div class="sheet-actions"><button class="btn btn-primary" id="closeSh">Done</button></div>`);
+  const sm=document.getElementById('sheetM');
+  document.getElementById('closeSh').onclick=()=>{closeSheet();renderAll();};
+  sm.querySelectorAll('[data-rmtopic]').forEach(b=>b.onclick=()=>{c.subjects.forEach(s=>s.topics=s.topics.filter(x=>x.id!==b.dataset.rmtopic));save();editSyllabusSheet();});
+  sm.querySelectorAll('[data-addtopic]').forEach(b=>b.onclick=()=>{const inp=sm.querySelector(`[data-addtopicin="${CSS.escape(b.dataset.addtopic)}"]`);const v=inp.value.trim();if(!v)return;const s=c.subjects.find(x=>x.name===b.dataset.addtopic);s.topics.push({id:uid(),name:v,school:0,tuition:0,parent:0,mastery:0});save();editSyllabusSheet();});
+  sm.querySelectorAll('[data-rmsubj]').forEach(b=>b.onclick=()=>{if(c.subjects.length<=1){toast('Keep at least one subject');return;}if(!confirm(`Delete subject ${b.dataset.rmsubj}?`))return;c.subjects=c.subjects.filter(x=>x.name!==b.dataset.rmsubj);save();editSyllabusSheet();});
+  document.getElementById('addSubjBtn').onclick=()=>{const v=document.getElementById('newSubjIn').value.trim();if(!v)return;if(c.subjects.find(x=>x.name===v)){toast('Already exists');return;}c.subjects.push({name:v,topics:[]});save();editSyllabusSheet();};
+}
+
+/* ===== backup ===== */
+function exportData(){const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`learning-tracker-${today()}.json`;a.click();toast('Backup downloaded');}
+function importData(file){const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.children)throw 0;S=d;if(!S.sheets)S.sheets=[];if(!S.activeId)S.activeId=S.children[0].id;save();renderAll();toast('Backup restored');}catch(e){toast('That file could not be read');}};r.readAsText(file);}
+
+/* ===== modal ===== */
+const scrim=document.getElementById('scrim'),sheetM=document.getElementById('sheetM');
+function openSheet(html){sheetM.innerHTML=html;scrim.classList.add('on');sheetM.scrollTop=0;}
+function closeSheet(){scrim.classList.remove('on');}
+scrim.onclick=e=>{if(e.target===scrim)closeSheet();};
+
+/* ===== nav ===== */
+function setView(v){S.view=v;save();document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===`v-${v}`));document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.v===v));if(v==='dash')renderDash();if(v==='syllabus')renderSyllabus();if(v==='sheets'){fillLogSelects();renderDB();}if(v==='manage')renderManage();renderAIStatus();window.scrollTo(0,0);}
+function renderAll(){renderKidRow();renderDash();renderSyllabus();fillLogSelects();renderDB();renderManage();renderAIStatus();}
+
+/* ===== init ===== */
+(async function(){
+  await load();bindLog();bindReading();bindKey();bindUpload();bindAskClaude();
+  document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>setView(t.dataset.v));
+  document.getElementById('addKidBtn').onclick=addKidSheet;
+  document.getElementById('editSyllabusBtn').onclick=editSyllabusSheet;
+  document.getElementById('exportBtn').onclick=exportData;
+  document.getElementById('importBtn').onclick=()=>document.getElementById('importFile').click();
+  document.getElementById('importFile').onchange=e=>{if(e.target.files[0])importData(e.target.files[0]);};
+  document.getElementById('resetBtn').onclick=()=>{if(confirm('Erase everything and start fresh?')){S={children:[newChild('Child 1')],sheets:[],reading:[],activeId:null,view:'dash'};S.activeId=S.children[0].id;save();renderAll();setView('dash');}};
+  renderAll();setView(S.view||'dash');
+})();
+</script>
+</body>
+</html>
